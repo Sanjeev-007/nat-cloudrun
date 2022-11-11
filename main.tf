@@ -5,7 +5,7 @@ terraform {
 provider "google" {
   version = "~> 3.46.0"
   region  = "us-central1"
-  project = "giridhar-project-1"
+  project = "cryptic-ground-365404"
 }
 
 
