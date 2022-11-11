@@ -1,45 +1,29 @@
 steps:
-# terraform init -input=false
-- name: gcr.io/$PROJECT_ID/terraform
+- id: 'tf plan'
+  name: 'hashicorp/terraform:1.0.0'
+  entrypoint: 'sh'
   args:
-  - init
-  - -input=false
-# terraform validate
-- name: gcr.io/$PROJECT_ID/terraform
-  args:
-  - validate
-# terraform plan -input=false -out=tfplan
-- name: gcr.io/$PROJECT_ID/terraform
-  args:
-  - plan
-  - -input=false
-  - -out=tfplan
-# terraform apply -auto-approve -input=false tfplan
-- name: gcr.io/$PROJECT_ID/terraform
-  args:
-  - apply
-  - -auto-approve
-  - -input=false
-  - tfplan
-  
-# steps:
-
-# # initialise Terraform
-# - id: terraform-init
-#   name: hashicorp/terraform:${_TF_VERSION}
-#   args: ['init']
-#   dir: ${_DIR}
-  
-# - id: terraform-plan
-#   name: hashicorp/terraform:${_TF_VERSION}
-#   args: ['plan']
-#   dir: ${_DIR}
-
-# # provision the resources
-# - id: terraform-apply
-#   name: hashicorp/terraform:${_TF_VERSION}
-#   args: ['apply', '--auto-approve']
-#   dir: ${_DIR}
-
-
-
+  - '-c'
+  - |
+      echo "branch $BRANCH_NAME"
+      if [ ! -z "$BRANCH_NAME" -a -d "terraform/environments/$BRANCH_NAME/" ]; then
+        cd terraform/environments/$BRANCH_NAME
+        terraform init
+        terraform validate
+        terraform plan -out terraform.plan
+        terraform apply -auto-approve terraform.plan
+      else
+        for dir in terraform/environments/*/
+        do
+          cd ${dir}
+          env=${dir%*/}
+          env=${env#*/}
+          terraform init
+          terraform validate
+          terraform plan
+          terraform apply -auto-approve || exit 1
+          cd ../../
+        done
+      fi
+options:
+  logging: CLOUD_LOGGING_ONLY
