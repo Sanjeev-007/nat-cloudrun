@@ -74,7 +74,7 @@ resource "google_cloud_run_service" "gcr_service" {
         }
       }
       # the service uses this SA to call other Google Cloud APIs
-      # service_account_name = myservice_runtime_sa
+      service_account_name = "cloud-nat@cryptic-ground-365404.iam.gserviceaccount.com"
     }
 
     metadata {
