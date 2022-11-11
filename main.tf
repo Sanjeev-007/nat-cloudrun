@@ -11,7 +11,7 @@ provider "google" {
 
 # [START vpc_serverless_connector_enable_api]
 resource "google_project_service" "vpcaccess_api" {
-  service            = "vpcaccess.googleapis.com"
+  service            = "iam.googleapis.com"
   provider           = google-beta
   disable_on_destroy = false
 }
