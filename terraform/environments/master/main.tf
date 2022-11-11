@@ -13,7 +13,7 @@ provider "google" {
 # [START vpc_serverless_connector_enable_api]
 resource "google_project_service" "vpcaccess_api" {
   service            = "vpcaccess.googleapis.com"
-  provider           = google-beta
+  provider           = google
   disable_on_destroy = false
 }
 # [END vpc_serverless_connector_enable_api]
@@ -21,15 +21,15 @@ resource "google_project_service" "vpcaccess_api" {
 # [START vpc_serverless_connector]
 # VPC
 resource "google_compute_network" "default" {
-  name                    = "cloudrun-network1"
-  provider                = google-beta
+  name                    = "cloudrun-network2"
+  provider                = google
   auto_create_subnetworks = false
 }
 
 # VPC access connector
 resource "google_vpc_access_connector" "connector" {
-  name           = "vpcconn1"
-  provider       = google-beta
+  name           = "vpcconn2"
+  provider       = google
   region         = "us-west1"
   ip_cidr_range  = "10.8.0.0/28"
   max_throughput = 300
@@ -39,16 +39,16 @@ resource "google_vpc_access_connector" "connector" {
 
 # Cloud Router
 resource "google_compute_router" "router" {
-  name     = "router1"
-  provider = google-beta
+  name     = "router2"
+  provider = google
   region   = "us-west1"
   network  = google_compute_network.default.id
 }
 
 # NAT configuration
 resource "google_compute_router_nat" "router_nat" {
-  name                               = "nat1"
-  provider                           = google-beta
+  name                               = "nat2"
+  provider                           = google
   region                             = "us-west1"
   router                             = google_compute_router.router.name
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
@@ -59,8 +59,8 @@ resource "google_compute_router_nat" "router_nat" {
 # [START cloudrun_vpc_serverless_connector]
 # Cloud Run service
 resource "google_cloud_run_service" "gcr_service" {
-  name     = "mygcrservice1"
-  provider = google-beta
+  name     = "mygcrservice2"
+  provider = google
   location = "us-west1"
 
   template {
