@@ -1,0 +1,17 @@
+steps:
+
+# initialise Terraform
+- id: terraform-init
+  name: hashicorp/terraform:${_TF_VERSION}
+  args: ['init']
+  dir: ${_DIR}
+
+# provision the resources
+- id: terraform-apply
+  name: hashicorp/terraform:${_TF_VERSION}
+  args: ['apply', '-auto-approve']
+  dir: ${_DIR}
+
+substitutions:
+  _TF_VERSION: 0.13.5
+  _DIR: 'terraform'
