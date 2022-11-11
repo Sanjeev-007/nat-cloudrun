@@ -20,14 +20,14 @@ resource "google_project_service" "vpcaccess_api" {
 # [START vpc_serverless_connector]
 # VPC
 resource "google_compute_network" "default" {
-  name                    = "cloudrun-network4"
+  name                    = "cloudrun-network5"
   provider                = google
   auto_create_subnetworks = false
 }
 
 # VPC access connector
 resource "google_vpc_access_connector" "connector" {
-  name           = "vpcconn4"
+  name           = "vpcconn5"
   provider       = google
   region         = "us-west1"
   ip_cidr_range  = "10.8.0.0/28"
@@ -38,7 +38,7 @@ resource "google_vpc_access_connector" "connector" {
 
 # Cloud Router
 resource "google_compute_router" "router" {
-  name     = "router4"
+  name     = "router5"
   provider = google
   region   = "us-west1"
   network  = google_compute_network.default.id
@@ -46,7 +46,7 @@ resource "google_compute_router" "router" {
 
 # NAT configuration
 resource "google_compute_router_nat" "router_nat" {
-  name                               = "nat4"
+  name                               = "nat5"
   provider                           = google
   region                             = "us-west1"
   router                             = google_compute_router.router.name
@@ -58,7 +58,7 @@ resource "google_compute_router_nat" "router_nat" {
 # [START cloudrun_vpc_serverless_connector]
 # Cloud Run service
 resource "google_cloud_run_service" "gcr_service" {
-  name     = "mygcrservice4"
+  name     = "mygcrservice5"
   provider = google
   location = "us-west1"
 
