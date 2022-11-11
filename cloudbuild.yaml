@@ -17,6 +17,4 @@ steps:
   args: ['apply', '--auto-approve']
   dir: ${_DIR}
 
-substitutions:
-  _TF_VERSION: 0.13.5
-  _DIR: 'terraform'
+
