@@ -14,7 +14,7 @@ steps:
 # provision the resources
 - id: terraform-apply
   name: hashicorp/terraform:${_TF_VERSION}
-  args: ['apply', '-auto-approve']
+  args: ['apply', '--auto-approve']
   dir: ${_DIR}
 
 substitutions:
