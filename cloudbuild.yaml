@@ -5,6 +5,11 @@ steps:
   name: hashicorp/terraform:${_TF_VERSION}
   args: ['init']
   dir: ${_DIR}
+  
+- id: terraform-plan
+  name: hashicorp/terraform:${_TF_VERSION}
+  args: ['plan']
+  dir: ${_DIR}
 
 # provision the resources
 - id: terraform-apply
