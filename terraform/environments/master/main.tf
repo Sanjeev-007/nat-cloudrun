@@ -4,8 +4,8 @@ terraform {
 
 provider "google" {
   version = "~> 3.46.0"
-  region  = "us-central1"
-  project = "cryptic-ground-365404"
+  region  = var.region
+  project = var.project_id
 }
 
 
@@ -74,7 +74,7 @@ resource "google_cloud_run_service" "gcr_service" {
         }
       }
       # the service uses this SA to call other Google Cloud APIs
-      service_account_name = "cloud-nat@cryptic-ground-365404.iam.gserviceaccount.com"
+      # service_account_name = myservice_runtime_sa
     }
 
     metadata {
