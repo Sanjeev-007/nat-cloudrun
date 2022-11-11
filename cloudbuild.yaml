@@ -1,20 +1,47 @@
 steps:
-
-# initialise Terraform
-- id: terraform-init
-  name: hashicorp/terraform:${_TF_VERSION}
-  args: ['init']
-  dir: ${_DIR}
+- id: 'tf plan'
+  name: 'hashicorp/terraform:1.0.0'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+      echo "branch $BRANCH_NAME"
+      if [ ! -z "$BRANCH_NAME" -a -d "$BRANCH_NAME" ]; then
+        cd terraform/environments/$BRANCH_NAME
+        terraform init
+        terraform validate
+        terraform plan -out terraform.plan
+        terraform apply -auto-approve terraform.plan
+      else
+        for dir in terraform/environments/*/
+        do
+          terraform init
+          terraform validate
+          terraform plan
+          terraform apply -auto-approve || exit 1
+        done
+      fi
+options:
+  logging: CLOUD_LOGGING_ONLY
   
-- id: terraform-plan
-  name: hashicorp/terraform:${_TF_VERSION}
-  args: ['plan']
-  dir: ${_DIR}
+# steps:
 
-# provision the resources
-- id: terraform-apply
-  name: hashicorp/terraform:${_TF_VERSION}
-  args: ['apply', '--auto-approve']
-  dir: ${_DIR}
+# # initialise Terraform
+# - id: terraform-init
+#   name: hashicorp/terraform:${_TF_VERSION}
+#   args: ['init']
+#   dir: ${_DIR}
+  
+# - id: terraform-plan
+#   name: hashicorp/terraform:${_TF_VERSION}
+#   args: ['plan']
+#   dir: ${_DIR}
+
+# # provision the resources
+# - id: terraform-apply
+#   name: hashicorp/terraform:${_TF_VERSION}
+#   args: ['apply', '--auto-approve']
+#   dir: ${_DIR}
+
 
 
