@@ -6,7 +6,7 @@ provider "google" {
   version = "~> 3.46.0"
   credentials = file("key.json")
   region  = "us-central1"
-  project = "cryptic-ground-365404"
+  project = "giridhar-project-1"
 }
 
 
