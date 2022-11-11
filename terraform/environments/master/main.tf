@@ -4,6 +4,7 @@ terraform {
 
 provider "google" {
   version = "~> 3.46.0"
+  credentials = file("key.json")
   region  = var.region
   project = var.project_id
 }
