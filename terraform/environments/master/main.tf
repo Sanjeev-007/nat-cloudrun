@@ -74,8 +74,7 @@ resource "google_cloud_run_service" "gcr_service" {
         }
       }
       # the service uses this SA to call other Google Cloud APIs
-      #service_account_name = "191628563199-compute@developer.gserviceaccount.com"
-      service_account_name ="shared-vpc-serviceacc@giridhar-project-1.iam.gserviceaccount.com"
+      service_account_name = "191628563199-compute@developer.gserviceaccount.com"
     }
 
     metadata {
